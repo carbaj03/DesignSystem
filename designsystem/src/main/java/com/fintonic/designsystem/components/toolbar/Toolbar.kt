@@ -46,7 +46,7 @@ fun Toolbar(
 
                 Column {
                     title?.let {
-                        Text(text = it, style = appTypography.bodyM, color = AppTheme.colors.onToolbar)
+                        Text(text = it, style = appTypography.bodyL, color = AppTheme.colors.onToolbar)
                     }
 
                     subtitle?.let {

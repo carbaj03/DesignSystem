@@ -1,14 +1,7 @@
 package com.fintonic.designsystem.foundation
 
-import androidx.compose.material.Colors
-import androidx.compose.material.LocalContentColor
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.contentColorFor
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.takeOrElse
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlin.reflect.full.companionObject

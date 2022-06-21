@@ -1,12 +1,18 @@
 package com.fintonic.designsystem.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,13 +48,17 @@ fun Screen(
     isLoading: Boolean = false,
     bottomBar: (@Composable RowScope.() -> Unit)? = null,
     sheetContent: @Composable BoxScope.() -> Unit = {},
+    scrollState: ScrollState = rememberScrollState(),
     content: @Composable (PaddingValues) -> Unit,
 ) {
+
     val scope = rememberCoroutineScope()
     var bottomSheetHeight by remember { mutableStateOf<Float?>(null) }
     val peekHeightPx = with(LocalDensity.current) { 56.dp.toPx() }
     val scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
     LaunchedEffect(key1 = scaffoldState, block = { scaffoldState.bottomSheetState.expand() })
+    val elevation by animateDpAsState(if (scrollState.value == 0) 0.dp else AppBarDefaults.TopAppBarElevation)
+
     val semantics = if (peekHeightPx != bottomSheetHeight) {
         Modifier.semantics {
             if (scaffoldState.bottomSheetState.isCollapsed) {
@@ -81,7 +91,8 @@ fun Screen(
                     itemLeft = {
                         onBack?.let { ItemBack(onBack = it) } ?: onClose?.let { ItemClose(onClose = it) }
                     },
-                    itemRight = itemRight
+                    itemRight = itemRight,
+                    elevation = elevation
                 )
             },
             snackbar = {
@@ -111,7 +122,7 @@ fun Screen(
                 }
             },
             content = {
-                content(PaddingValues(end = 16.dp, start = 16.dp, top = 16.dp, bottom = it.calculateBottomPadding()))
+                content(it)
                 if (isLoading) Loader()
             }
         )

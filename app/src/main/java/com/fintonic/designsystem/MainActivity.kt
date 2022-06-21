@@ -3,7 +3,6 @@ package com.fintonic.designsystem
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,13 +10,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -33,7 +30,6 @@ import com.fintonic.designsystem.components.input.InputText
 import com.fintonic.designsystem.components.input.SubText
 import com.fintonic.designsystem.components.template
 import com.fintonic.designsystem.components.text.Text
-import com.fintonic.designsystem.components.toolbar.*
 import com.fintonic.designsystem.foundation.*
 import kotlinx.coroutines.delay
 
@@ -187,16 +183,18 @@ fun InputScreen(onBack: (() -> Unit)) {
 
 @Composable
 fun ButtonScreen(onBack: (() -> Unit), state: SnackBarState?, isLoading: Boolean) {
+    val scrollState = rememberScrollState()
     Screen(
         title = "Buttons",
         onBack = onBack,
         snackBarState = state,
-        isLoading = isLoading
+        isLoading = isLoading,
+        scrollState = scrollState
     ) {
         Column(
             modifier = Modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
         ) {
             ButtonPrimary(onClick = { /*TODO*/ }, text = "Primary", modifier = Modifier.fillMaxWidth())
             SpacerVertical(10.dp)
