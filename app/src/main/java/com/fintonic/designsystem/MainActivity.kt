@@ -34,7 +34,6 @@ import com.fintonic.designsystem.components.template
 import com.fintonic.designsystem.components.text.Text
 import com.fintonic.designsystem.components.toolbar.*
 import com.fintonic.designsystem.foundation.*
-import com.fintonic.designsystem.ui.theme.DesignSystemTheme
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
