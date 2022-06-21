@@ -63,6 +63,7 @@ internal fun Button(
 
 @Composable
 fun ButtonPrimary(
+    text : String,
     onClick: () -> Unit,
     enabled: Boolean = true,
     @DrawableRes iconLeft: Int? = null,
@@ -76,7 +77,7 @@ fun ButtonPrimary(
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(style = appTypography.bodyM, text = "Primary", color = colorText)
+        Text(style = appTypography.bodyM, text = text, color = colorText)
         iconRight?.let {
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)
@@ -86,6 +87,7 @@ fun ButtonPrimary(
 
 @Composable
 fun ButtonSecondary(
+    text : String,
     onClick: () -> Unit,
     enabled: Boolean = true,
     @DrawableRes iconLeft: Int? = null,
@@ -99,7 +101,7 @@ fun ButtonSecondary(
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(style = appTypography.bodyM, text = "Secondary", color = colorText)
+        Text(style = appTypography.bodyM, text = text, color = colorText)
         iconRight?.let {
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)
@@ -109,6 +111,7 @@ fun ButtonSecondary(
 
 @Composable
 fun ButtonTertiary(
+    text : String,
     onClick: () -> Unit,
     enabled: Boolean = true,
     @DrawableRes iconLeft: Int? = null,
@@ -122,7 +125,7 @@ fun ButtonTertiary(
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(style = appTypography.bodyM, text = "Tertiary", color = colorText)
+        Text(style = appTypography.bodyM, text = text, color = colorText)
         iconRight?.let {
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)
