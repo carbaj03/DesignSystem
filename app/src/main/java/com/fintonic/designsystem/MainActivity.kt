@@ -198,6 +198,8 @@ fun ButtonScreen(onBack: (() -> Unit), state: SnackBarState?, isLoading: Boolean
                 .padding(it)
                 .verticalScroll(rememberScrollState())
         ) {
+            ButtonPrimary(onClick = { /*TODO*/ }, text = "Primary", modifier = Modifier.fillMaxWidth())
+            SpacerVertical(10.dp)
             ButtonPrimary(onClick = { /*TODO*/ }, iconLeft = R.drawable.ic_help, iconRight = R.drawable.ic_info, text = "Primary")
             SpacerVertical(10.dp)
             ButtonPrimary(onClick = { /*TODO*/ }, iconRight = R.drawable.ic_info, text = "Primary")
