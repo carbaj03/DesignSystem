@@ -5,7 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
+import androidx.compose.animation.core.TweenSpec
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -13,16 +17,29 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.isSpecified
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.SubcomposeLayout
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.collapse
+import androidx.compose.ui.semantics.dismiss
+import androidx.compose.ui.semantics.expand
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
@@ -42,6 +59,8 @@ import com.fintonic.designsystem.components.toolbar.*
 import com.fintonic.designsystem.foundation.*
 import com.fintonic.designsystem.ui.theme.DesignSystemTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
 
@@ -95,7 +114,6 @@ fun <A> LaunchEffect(initial: A, action: suspend () -> A): A {
 
 @Composable
 fun MainScreen(mode: (Boolean) -> Unit, navController: NavHostController) {
-
     Screen(
         title = "pepe",
         itemRight = {
@@ -112,10 +130,13 @@ fun MainScreen(mode: (Boolean) -> Unit, navController: NavHostController) {
             )
             Spacer(modifier = Modifier.width(16.dp))
         },
-        bottomBar = {
-            IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Filled.Favorite, "")
-            }
+//        bottomBar = {
+//            IconButton(onClick = { /* doSomething() */ }) {
+//                Icon(Icons.Filled.Favorite, "")
+//            }
+//        },
+        sheetContent = {
+            Text(text = "sadf")
         }
     ) {
         LazyVerticalGrid(
@@ -172,17 +193,20 @@ fun InputScreen(onBack: (() -> Unit)) {
         var text by remember { mutableStateOf("") }
         var text1 by remember { mutableStateOf("") }
 
-        InputText(
-            text = text,
-            onTextChange = { text = it },
-            placeholder = "sadfs",
-            subText = SubText.Info("fadsf")
-        )
-        InputText(
-            text = text1,
-            onTextChange = { text1 = it },
-            placeholder = "sadfs"
-        )
+        Column(Modifier.padding(16.dp)) {
+            InputText(
+                text = text,
+                onTextChange = { text = it },
+                placeholder = "sadfs",
+                subText = SubText.Info("fadsf")
+            )
+            SpacerVertical(height = 20.dp)
+            InputText(
+                text = text1,
+                onTextChange = { text1 = it },
+                placeholder = "sadfs"
+            )
+        }
     }
 }
 
@@ -192,6 +216,7 @@ sealed class SnackBarState(open val text: String) {
     data class Dismiss(override val text: String) : SnackBarState(text)
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Screen(
     modifier: Modifier = Modifier,
@@ -203,9 +228,34 @@ fun Screen(
     contentColor: AppColor = AppTheme.colors.onBackground,
     snackBarState: SnackBarState? = null,
     isLoading: Boolean = false,
-    bottomBar: (@Composable (RowScope) -> Unit)? = null,
+    bottomBar: (@Composable RowScope.() -> Unit)? = null,
+    sheetContent :  @Composable BoxScope.() -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
+    var bottomSheetHeight by remember { mutableStateOf<Float?>(null) }
+    val peekHeightPx = with(LocalDensity.current) { 56.dp.toPx() }
+    val scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
+    LaunchedEffect(key1 = scaffoldState, block = {scaffoldState.bottomSheetState.expand()})
+    val semantics = if (peekHeightPx != bottomSheetHeight) {
+        Modifier.semantics {
+            if (scaffoldState.bottomSheetState.isCollapsed) {
+                expand {
+                    if (!scaffoldState.bottomSheetState.isCollapsed) {
+                        scope.launch { scaffoldState.bottomSheetState.expand() }
+                    }
+                    true
+                }
+            } else {
+                collapse {
+                    if (scaffoldState.bottomSheetState.isCollapsed) {
+                        scope.launch { scaffoldState.bottomSheetState.collapse() }
+                    }
+                    true
+                }
+            }
+        }
+    } else Modifier
 
     Surface(
         modifier = modifier,
@@ -251,8 +301,101 @@ fun Screen(
             content = {
                 content(PaddingValues(end = 16.dp, start = 16.dp, top = 16.dp, bottom = it.calculateBottomPadding()))
                 if (isLoading) Loader()
-            },
+            }
         )
+    }
+
+    BoxWithConstraints(modifier) {
+        val fullHeight = constraints.maxHeight.toFloat()
+        val sheetHeightState = remember { mutableStateOf<Float?>(null) }
+        Box(Modifier.fillMaxSize()) {
+            content(PaddingValues(16.dp))
+            Scrim(
+                color = scrimColor,
+                onDismiss = {
+                    if (sheetState.confirmStateChange(ModalBottomSheetValue.Hidden)) {
+                        scope.launch { sheetState.hide() }
+                    }
+                },
+                visible = sheetState.targetValue != ModalBottomSheetValue.Hidden
+            )
+        }
+        Surface(
+            Modifier
+                .fillMaxWidth()
+                .nestedScroll(sheetState.nestedScrollConnection)
+                .offset {
+                    val y = if (sheetState.anchors.isEmpty()) {
+                        // if we don't know our anchors yet, render the sheet as hidden
+                        fullHeight.roundToInt()
+                    } else {
+                        // if we do know our anchors, respect them
+                        sheetState.offset.value.roundToInt()
+                    }
+                    IntOffset(0, y)
+                }
+                .bottomSheetSwipeable(sheetState, fullHeight, sheetHeightState)
+                .onGloballyPositioned {
+                    sheetHeightState.value = it.size.height.toFloat()
+                }
+                .semantics {
+                    if (sheetState.isVisible) {
+                        dismiss {
+                            if (sheetState.confirmStateChange(ModalBottomSheetValue.Hidden)) {
+                                scope.launch { sheetState.hide() }
+                            }
+                            true
+                        }
+                        if (sheetState.currentValue == ModalBottomSheetValue.HalfExpanded) {
+                            expand {
+                                if (sheetState.confirmStateChange(ModalBottomSheetValue.Expanded)) {
+                                    scope.launch { sheetState.expand() }
+                                }
+                                true
+                            }
+                        } else if (sheetState.hasHalfExpandedState) {
+                            collapse {
+                                if (sheetState.confirmStateChange(ModalBottomSheetValue.HalfExpanded)) {
+                                    scope.launch { sheetState.halfExpand() }
+                                }
+                                true
+                            }
+                        }
+                    }
+                },
+            shape = sheetShape,
+            elevation = sheetElevation,
+            color = sheetBackgroundColor,
+            contentColor = sheetContentColor
+        ) {
+            Column(content = sheetContent)
+        }
+    }
+}
+
+@Composable
+private fun Scrim(
+    color: Color,
+    onDismiss: () -> Unit,
+    visible: Boolean
+) {
+    if (color.isSpecified) {
+        val alpha by animateFloatAsState(
+            targetValue = if (visible) 1f else 0f,
+            animationSpec = TweenSpec()
+        )
+        val dismissModifier = if (visible) {
+            Modifier.pointerInput(Unit) { detectTapGestures { onDismiss() } }
+        } else {
+            Modifier
+        }
+        Canvas(
+            Modifier
+                .fillMaxSize()
+                .then(dismissModifier)
+        ) {
+            drawRect(color = color, alpha = alpha)
+        }
     }
 }
 
@@ -284,7 +427,7 @@ internal fun MainBottomBar(
     }
 }
 
-private enum class ScaffoldLayoutContent { TopBar, MainContent, Snackbar, Fab, BottomBar }
+private enum class ScaffoldLayoutContent { TopBar, MainContent, Sheet, Snackbar, BottomBar }
 
 @Composable
 private fun ScaffoldLayout(
@@ -312,7 +455,6 @@ private fun ScaffoldLayout(
 
             val snackbarHeight = snackbarPlaceables.fastMaxBy { it.height }?.height ?: 0
 
-
             val bottomBarPlaceables = subcompose(ScaffoldLayoutContent.BottomBar) {
                 CompositionLocalProvider(content = bottomBar)
             }.fastMap { it.measure(looseConstraints) }
@@ -335,7 +477,6 @@ private fun ScaffoldLayout(
             }
 
             // Placing to control drawing order to match default elevation of each placeable
-
             bodyContentPlaceables.fastForEach {
                 it.place(0, topBarHeight)
             }
