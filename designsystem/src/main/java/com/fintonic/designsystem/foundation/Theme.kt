@@ -11,11 +11,11 @@ import com.fintonic.designsystem.foundation.*
 
 @Composable
 fun DesignSystemTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean,
     content: @Composable () -> Unit
 ) {
     AppTheme(
-        colors = if (darkTheme) light else dark,
+        colors = if (darkTheme) dark else light,
         buttonColors = lightButtons,
         typography = appTypography,
         shapes = Shapes,

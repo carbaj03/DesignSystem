@@ -332,7 +332,7 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    DesignSystemTheme {
+    DesignSystemTheme(false) {
         Greeting("Android")
     }
 }
