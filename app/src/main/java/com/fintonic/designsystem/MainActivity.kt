@@ -3,13 +3,8 @@ package com.fintonic.designsystem
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.TweenSpec
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -17,50 +12,30 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.isSpecified
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.SubcomposeLayout
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.collapse
-import androidx.compose.ui.semantics.dismiss
-import androidx.compose.ui.semantics.expand
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastForEach
-import androidx.compose.ui.util.fastMap
-import androidx.compose.ui.util.fastMaxBy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fintonic.designsystem.components.Loader
+import com.fintonic.designsystem.components.Screen
+import com.fintonic.designsystem.components.SnackBarState
 import com.fintonic.designsystem.components.button.ButtonPrimary
 import com.fintonic.designsystem.components.button.ButtonSecondary
 import com.fintonic.designsystem.components.button.ButtonTertiary
 import com.fintonic.designsystem.components.input.InputText
 import com.fintonic.designsystem.components.input.SubText
+import com.fintonic.designsystem.components.template
 import com.fintonic.designsystem.components.text.Text
 import com.fintonic.designsystem.components.toolbar.*
 import com.fintonic.designsystem.foundation.*
 import com.fintonic.designsystem.ui.theme.DesignSystemTheme
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.math.roundToInt
 
 class MainActivity : ComponentActivity() {
 
@@ -206,197 +181,6 @@ fun InputScreen(onBack: (() -> Unit)) {
                 onTextChange = { text1 = it },
                 placeholder = "sadfs"
             )
-        }
-    }
-}
-
-
-sealed class SnackBarState(open val text: String) {
-    data class Show(override val text: String) : SnackBarState(text)
-    data class Dismiss(override val text: String) : SnackBarState(text)
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun Screen(
-    modifier: Modifier = Modifier,
-    title: String? = null,
-    onBack: (() -> Unit)? = null,
-    onClose: (() -> Unit)? = null,
-    itemRight: ItemRight? = null,
-    backgroundColor: AppColor = AppTheme.colors.background,
-    contentColor: AppColor = AppTheme.colors.onBackground,
-    snackBarState: SnackBarState? = null,
-    isLoading: Boolean = false,
-    bottomBar: (@Composable RowScope.() -> Unit)? = null,
-    sheetContent :  @Composable BoxScope.() -> Unit = {},
-    content: @Composable (PaddingValues) -> Unit,
-) {
-    val scope = rememberCoroutineScope()
-    var bottomSheetHeight by remember { mutableStateOf<Float?>(null) }
-    val peekHeightPx = with(LocalDensity.current) { 56.dp.toPx() }
-    val scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
-    LaunchedEffect(key1 = scaffoldState, block = {scaffoldState.bottomSheetState.expand()})
-    val semantics = if (peekHeightPx != bottomSheetHeight) {
-        Modifier.semantics {
-            if (scaffoldState.bottomSheetState.isCollapsed) {
-                expand {
-                    if (!scaffoldState.bottomSheetState.isCollapsed) {
-                        scope.launch { scaffoldState.bottomSheetState.expand() }
-                    }
-                    true
-                }
-            } else {
-                collapse {
-                    if (scaffoldState.bottomSheetState.isCollapsed) {
-                        scope.launch { scaffoldState.bottomSheetState.collapse() }
-                    }
-                    true
-                }
-            }
-        }
-    } else Modifier
-
-    Surface(
-        modifier = modifier,
-        color = backgroundColor,
-        contentColor = contentColor
-    ) {
-        ScaffoldLayout(
-            topBar = {
-                Toolbar(
-                    title = title,
-                    itemLeft = {
-                        onBack?.let { ItemBack(onBack = it) } ?: onClose?.let { ItemClose(onClose = it) }
-                    },
-                    itemRight = itemRight
-                )
-            },
-            snackbar = {
-                Box(
-                    contentAlignment = Alignment.BottomCenter,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    AnimatedVisibility(
-                        visible = snackBarState is SnackBarState.Show,
-                        enter = slideInVertically { height -> height },
-                        exit = slideOutVertically { height -> height }
-                    ) {
-                        Row(
-                            Modifier
-                                .background(color = AppColor.Green.color)
-                                .padding(20.dp)
-                                .fillMaxWidth()
-                        ) {
-                            Text(style = appTypography.bodyM, text = snackBarState?.text ?: "")
-                        }
-                    }
-                }
-            },
-            bottomBar = {
-                bottomBar?.let {
-                    MainBottomBar(modifier = Modifier, contentColor = contentColor, backgroundColor = backgroundColor, content = it)
-                }
-            },
-            content = {
-                content(PaddingValues(end = 16.dp, start = 16.dp, top = 16.dp, bottom = it.calculateBottomPadding()))
-                if (isLoading) Loader()
-            }
-        )
-    }
-}
-
-@Composable
-internal fun MainBottomBar(
-    modifier: Modifier,
-    contentColor: AppColor,
-    backgroundColor: AppColor,
-    content: @Composable (RowScope) -> Unit
-) {
-    Surface(
-        color = backgroundColor,
-        contentColor = contentColor,
-        elevation = 8.dp,
-        shape = RectangleShape,
-        modifier = modifier
-    ) {
-        CompositionLocalProvider() {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-                    .height(56.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically,
-                content = content
-            )
-        }
-    }
-}
-
-private enum class ScaffoldLayoutContent { TopBar, MainContent, Sheet, Snackbar, BottomBar }
-
-@Composable
-private fun ScaffoldLayout(
-    topBar: @Composable () -> Unit,
-    content: @Composable (PaddingValues) -> Unit,
-    snackbar: @Composable () -> Unit,
-    bottomBar: @Composable () -> Unit
-) {
-    SubcomposeLayout { constraints ->
-        val layoutWidth = constraints.maxWidth
-        val layoutHeight = constraints.maxHeight
-
-        val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
-
-        layout(layoutWidth, layoutHeight) {
-            val topBarPlaceables = subcompose(ScaffoldLayoutContent.TopBar, topBar).fastMap {
-                it.measure(looseConstraints)
-            }
-
-            val topBarHeight = topBarPlaceables.fastMaxBy { it.height }?.height ?: 0
-
-            val snackbarPlaceables = subcompose(ScaffoldLayoutContent.Snackbar, snackbar).fastMap {
-                it.measure(looseConstraints)
-            }
-
-            val snackbarHeight = snackbarPlaceables.fastMaxBy { it.height }?.height ?: 0
-
-            val bottomBarPlaceables = subcompose(ScaffoldLayoutContent.BottomBar) {
-                CompositionLocalProvider(content = bottomBar)
-            }.fastMap { it.measure(looseConstraints) }
-
-            val bottomBarHeight = bottomBarPlaceables.fastMaxBy { it.height }?.height ?: 0
-
-            val snackbarOffsetFromBottom = if (snackbarHeight != 0) {
-                snackbarHeight + bottomBarHeight
-            } else {
-                0
-            }
-
-            val bodyContentHeight = layoutHeight - topBarHeight
-
-            val bodyContentPlaceables = subcompose(ScaffoldLayoutContent.MainContent) {
-                val innerPadding = PaddingValues(bottom = bottomBarHeight.toDp())
-                content(innerPadding)
-            }.fastMap {
-                it.measure(looseConstraints.copy(maxHeight = bodyContentHeight))
-            }
-
-            // Placing to control drawing order to match default elevation of each placeable
-            bodyContentPlaceables.fastForEach {
-                it.place(0, topBarHeight)
-            }
-            topBarPlaceables.fastForEach {
-                it.place(0, 0)
-            }
-            snackbarPlaceables.fastForEach {
-                it.place(0, layoutHeight - snackbarOffsetFromBottom)
-            }
-            // The bottom bar is always at the bottom of the layout
-            bottomBarPlaceables.fastForEach {
-                it.place(0, layoutHeight - bottomBarHeight)
-            }
         }
     }
 }
@@ -551,20 +335,5 @@ fun Greeting(name: String) {
 fun DefaultPreview() {
     DesignSystemTheme {
         Greeting("Android")
-    }
-}
-
-public fun ComponentActivity.template(
-    parent: CompositionContext? = null,
-    content: @Composable ((Boolean) -> Unit) -> Unit
-) {
-    setContent(parent) {
-        var mode by remember { mutableStateOf(false) }
-
-        DesignSystemTheme(mode) {
-            Surface(color = AppColor.Blue, elevation = 20.dp) {
-                content { mode = it }
-            }
-        }
     }
 }
