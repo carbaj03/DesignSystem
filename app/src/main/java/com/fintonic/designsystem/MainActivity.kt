@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.fintonic.designsystem.components.Screen
 import com.fintonic.designsystem.components.SnackBarState
+import com.fintonic.designsystem.components.SpacerVertical
 import com.fintonic.designsystem.components.button.ButtonPrimary
 import com.fintonic.designsystem.components.button.ButtonSecondary
 import com.fintonic.designsystem.components.button.ButtonTertiary
@@ -252,16 +253,6 @@ fun ButtonScreen(onBack: (() -> Unit), state: SnackBarState?, isLoading: Boolean
             SpacerVertical(10.dp)
         }
     }
-}
-
-@Composable
-fun SpacerVertical(height: Dp) {
-    Spacer(modifier = Modifier.height(height))
-}
-
-@Composable
-fun SpacerHorizontal(width: Dp) {
-    Spacer(modifier = Modifier.width(width))
 }
 
 @Composable
