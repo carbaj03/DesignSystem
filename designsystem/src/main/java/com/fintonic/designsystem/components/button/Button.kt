@@ -63,8 +63,9 @@ internal fun Button(
 
 @Composable
 fun ButtonPrimary(
-    text : String,
+    text: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     @DrawableRes iconLeft: Int? = null,
     @DrawableRes iconRight: Int? = null,
@@ -72,7 +73,7 @@ fun ButtonPrimary(
     val colorText = AppTheme.buttonColors.primary.colorFor(enabled)
     val color = AppTheme.buttonColors.primary(enabled)
 
-    Button(onClick = onClick, enabled = enabled, color = color) {
+    Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier) {
         iconLeft?.let {
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
@@ -87,8 +88,9 @@ fun ButtonPrimary(
 
 @Composable
 fun ButtonSecondary(
-    text : String,
+    text: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     @DrawableRes iconLeft: Int? = null,
     @DrawableRes iconRight: Int? = null,
@@ -96,7 +98,7 @@ fun ButtonSecondary(
     val colorText = AppTheme.buttonColors.secondary.colorFor(enabled)
     val color = AppTheme.buttonColors.secondary(enabled)
 
-    Button(onClick = onClick, enabled = enabled, color = color, modifier = Modifier.border(BorderStroke(1.dp, colorText.color), RoundedCornerShape(48.dp))) {
+    Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier.border(BorderStroke(1.dp, colorText.color), RoundedCornerShape(48.dp))) {
         iconLeft?.let {
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
@@ -111,8 +113,9 @@ fun ButtonSecondary(
 
 @Composable
 fun ButtonTertiary(
-    text : String,
+    text: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     @DrawableRes iconLeft: Int? = null,
     @DrawableRes iconRight: Int? = null,
@@ -120,7 +123,7 @@ fun ButtonTertiary(
     val colorText = AppTheme.buttonColors.tertiary.colorFor(enabled)
     val color = AppTheme.buttonColors.tertiary(enabled)
 
-    Button(onClick = onClick, enabled = enabled, color = color) {
+    Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier) {
         iconLeft?.let {
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
