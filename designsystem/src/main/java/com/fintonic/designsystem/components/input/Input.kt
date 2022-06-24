@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fintonic.designsystem.R
+import com.fintonic.designsystem.components.SpacerVertical
 import com.fintonic.designsystem.components.text.Text
 import com.fintonic.designsystem.foundation.AppColor
 import com.fintonic.designsystem.foundation.appTypography
@@ -315,7 +316,7 @@ fun InputCurrency(
                     .weight(1f)
             ) {
                 if (!focused && text.isBlank())
-                    Text(text = placeholder, style = appTypography.bodyL, color = AppColor.Gray70)
+                    Text(text = placeholder, style = appTypography.bodyL, color = AppColor.Gray70, textAlign = TextAlign.End)
 
                 BasicTextField(
                     modifier = modifier
@@ -357,9 +358,22 @@ fun InputCurrency(
         )
 
         subText?.let {
+            SpacerVertical(height = 10.dp)
             when (it) {
-                is SubText.Error -> Text(text = it.text, style = appTypography.bodyS, color = AppColor.Coral)
-                is SubText.Info -> Text(text = it.text, style = appTypography.bodyS, color = AppColor.Gray70)
+                is SubText.Error -> Text(
+                    text = it.text,
+                    style = appTypography.bodyS,
+                    color = AppColor.Coral,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                is SubText.Info -> Text(
+                    text = it.text,
+                    style = appTypography.bodyS,
+                    color = AppColor.Gray100,
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         }
     }

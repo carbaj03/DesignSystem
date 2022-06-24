@@ -184,7 +184,8 @@ fun InputScreen(onBack: (() -> Unit)) {
                 text = text2,
                 onTextChange = { text2 = it },
                 placeholder = "sadfs",
-                currency = "€"
+                currency = "€",
+                subText = SubText.Info("Tendrñas : 222")
             )
         }
     }
