@@ -26,6 +26,7 @@ import com.fintonic.designsystem.components.SpacerVertical
 import com.fintonic.designsystem.components.button.ButtonPrimary
 import com.fintonic.designsystem.components.button.ButtonSecondary
 import com.fintonic.designsystem.components.button.ButtonTertiary
+import com.fintonic.designsystem.components.input.InputCurrency
 import com.fintonic.designsystem.components.input.InputText
 import com.fintonic.designsystem.components.input.SubText
 import com.fintonic.designsystem.components.template
@@ -163,6 +164,7 @@ fun InputScreen(onBack: (() -> Unit)) {
     ) {
         var text by remember { mutableStateOf("") }
         var text1 by remember { mutableStateOf("") }
+        var text2 by remember { mutableStateOf("") }
 
         Column(Modifier.padding(16.dp)) {
             InputText(
@@ -176,6 +178,13 @@ fun InputScreen(onBack: (() -> Unit)) {
                 text = text1,
                 onTextChange = { text1 = it },
                 placeholder = "sadfs"
+            )
+            SpacerVertical(height = 20.dp)
+            InputCurrency(
+                text = text2,
+                onTextChange = { text2 = it },
+                placeholder = "sadfs",
+                currency = "€"
             )
         }
     }

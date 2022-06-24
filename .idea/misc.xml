@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/compose-model-1655995638829.xml" value="0.1" />
+        <entry key="../../../../layout/compose-model-1655995754145.xml" value="0.1" />
+        <entry key="designsystem/src/main/java/com/fintonic/designsystem/components/input/Input.kt" value="0.3675925925925926" />
         <entry key="designsystem/src/main/res/drawable/drawable.xml" value="0.23" />
         <entry key="designsystem/src/main/res/drawable/ic_arrow_down.xml" value="0.1545" />
         <entry key="designsystem/src/main/res/drawable/ic_arrow_small_up.xml" value="0.1545" />
