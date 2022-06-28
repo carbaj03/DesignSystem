@@ -2,6 +2,7 @@ package com.fintonic.designsystem
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,7 +33,10 @@ import com.fintonic.designsystem.components.input.InputCurrency
 import com.fintonic.designsystem.components.input.InputText
 import com.fintonic.designsystem.components.input.SubText
 import com.fintonic.designsystem.components.template
+import com.fintonic.designsystem.components.text.BoldSpanned
 import com.fintonic.designsystem.components.text.Text
+import com.fintonic.designsystem.components.text.TextSpanned
+import com.fintonic.designsystem.components.text.TextSpannedStyle
 import com.fintonic.designsystem.foundation.*
 import kotlinx.coroutines.delay
 
@@ -273,11 +278,23 @@ fun TypographyScreen(
     typographys: List<Pair<String, TextStyle>>,
     onBack: (() -> Unit)
 ) {
+    val context = LocalContext.current
     Screen(
         title = "Buttons",
         onBack = onBack
     ) {
+
         LazyColumn(content = {
+            item {
+                BoldSpanned(style = appTypography.detail, text = "Alejandro Carbajo Vidales", textInBold = arrayOf("Hola", "Alejandro", "Vidales"))
+                TextSpanned(
+                    TextSpannedStyle("Hola", appTypography.bodyL, AppColor.Coral.color),
+                    TextSpannedStyle("Alejandro Carbajo", appTypography.bodyS, AppColor.Coral.color, { Toast.makeText(context, it, Toast.LENGTH_LONG).show() }),
+                    style = appTypography.detail,
+                    text = "Hola Alejandro Carbajo Vidales",
+                )
+            }
+
             items(typographys) {
                 Text(style = it.second, text = it.first)
             }

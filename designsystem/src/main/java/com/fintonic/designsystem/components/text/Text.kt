@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.TextUnit
 import com.fintonic.designsystem.foundation.AppColor
 import com.fintonic.designsystem.foundation.AppTheme
 import com.fintonic.designsystem.foundation.LocalTextStyle
+import com.fintonic.designsystem.foundation.appTypography
 
 @Composable
 fun Text(
@@ -49,4 +50,23 @@ fun Text(
         softWrap,
         maxLines,
     )
+}
+
+
+@Composable
+fun TextHeadingS(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: AppColor = AppColor.Gray100
+) {
+    Text(text = text, modifier = modifier, style = appTypography.headingS, color = color)
+}
+
+@Composable
+fun TextBodyL(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: AppColor = AppColor.Gray70
+) {
+    Text(text = text, modifier = modifier, style = appTypography.bodyL, color = color)
 }
