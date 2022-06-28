@@ -56,8 +56,16 @@ fun Screen(
     var bottomSheetHeight by remember { mutableStateOf<Float?>(null) }
     val peekHeightPx = with(LocalDensity.current) { 56.dp.toPx() }
     val scaffoldState: BottomSheetScaffoldState = rememberBottomSheetScaffoldState()
-    LaunchedEffect(key1 = scaffoldState, block = { scaffoldState.bottomSheetState.expand() })
-    val elevation by animateDpAsState(if (scrollState.value == 0) 0.dp else AppBarDefaults.TopAppBarElevation)
+
+    val elevationDefault by derivedStateOf {
+        if (scrollState.value == 0) 0.dp
+        else AppBarDefaults.TopAppBarElevation
+    }
+    val elevation by animateDpAsState(elevationDefault)
+
+    LaunchedEffect(scaffoldState) {
+        scaffoldState.bottomSheetState.expand()
+    }
 
     val semantics = if (peekHeightPx != bottomSheetHeight) {
         Modifier.semantics {
@@ -122,7 +130,7 @@ fun Screen(
                 }
             },
             content = {
-                content(it)
+                content(PaddingValues(16.dp))
                 if (isLoading) Loader()
             }
         )
