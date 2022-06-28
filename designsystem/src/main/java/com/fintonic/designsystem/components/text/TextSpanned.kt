@@ -37,7 +37,7 @@ fun TextSpanned(
                 textWithStyle.forEach {
                     val first: Int = text.indexOf(it.text)
                     val last = first + it.text.length
-                    if(offset >= first && offset <= last) it.onClick(it.text)
+                    if (offset >= first && offset <= last) it.onClick(it.text)
                 }
             },
             text = buildAnnotatedString {

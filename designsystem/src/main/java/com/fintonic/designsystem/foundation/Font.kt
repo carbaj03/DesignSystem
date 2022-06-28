@@ -11,7 +11,6 @@ import androidx.compose.ui.unit.sp
 import com.fintonic.designsystem.R
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
 
 
@@ -41,6 +40,9 @@ val FontWeight.Companion.Heavy get() = W900
 val defaultLetterSpacing = (-0.7).sp
 val defaultLineHeight = 16.sp
 
+internal val defaultBodyColor = AppColor.Gray70.color
+internal val defaultHeadingColor = AppColor.Gray100.color
+
 
 @Immutable
 data class AppTypography(
@@ -57,7 +59,7 @@ data class AppTypography(
     val heading2XL: TextStyle,
 )
 
-suspend inline fun <reified A, B> getFonts(a : A): List<Pair<String, B>> = coroutineScope {
+suspend inline fun <reified A, B> getFonts(a: A): List<Pair<String, B>> = coroutineScope {
     delay(300)
     a!!::class.memberProperties.map { it.name to it.call(a) as B }
 }
@@ -70,77 +72,87 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.Regular,
             fontSize = 12.sp,
             lineHeight = defaultLineHeight,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
         ),
         bodyS = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
             fontSize = 14.sp,
             lineHeight = 20.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color = defaultBodyColor
         ),
         bodyM = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
             fontSize = 16.sp,
             lineHeight = 22.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color = defaultBodyColor
         ),
         bodyL = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
             fontSize = 18.sp,
             lineHeight = 24.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color = defaultBodyColor
         ),
         heading2XS = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Medium,
             fontSize = 16.sp,
             lineHeight = 22.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color = defaultHeadingColor
         ),
         headingXS = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             lineHeight = 26.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color =  defaultHeadingColor
         ),
         headingS = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Medium,
             fontSize = 24.sp,
             lineHeight = 32.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color =  defaultHeadingColor
         ),
         headingM = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Medium,
             fontSize = 32.sp,
             lineHeight = 40.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color =  defaultHeadingColor
         ),
         headingL = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.SemiBold,
             fontSize = 40.sp,
             lineHeight = 48.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color =  defaultHeadingColor
         ),
         headingXL = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.SemiBold,
             fontSize = 48.sp,
             lineHeight = 54.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color =  defaultHeadingColor
         ),
         heading2XL = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.SemiBold,
             fontSize = 64.sp,
             lineHeight = 64.sp,
-            letterSpacing = defaultLetterSpacing
+            letterSpacing = defaultLetterSpacing,
+            color =  defaultHeadingColor
         ),
     )
 

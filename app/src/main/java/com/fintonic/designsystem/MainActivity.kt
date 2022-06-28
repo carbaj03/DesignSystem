@@ -290,7 +290,7 @@ fun TypographyScreen(
                 TextSpanned(
                     TextSpannedStyle("Hola", appTypography.bodyL, AppColor.Coral.color),
                     TextSpannedStyle("Alejandro Carbajo", appTypography.bodyS, AppColor.Coral.color, { Toast.makeText(context, it, Toast.LENGTH_LONG).show() }),
-                    style = appTypography.detail,
+                    style = appTypography.detail.copy(color = AppColor.Orange70.color),
                     text = "Hola Alejandro Carbajo Vidales",
                 )
             }
