@@ -1,5 +1,6 @@
 package com.fintonic.designsystem.components.button
 
+import android.graphics.drawable.Icon
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -158,8 +159,22 @@ fun ButtonIcon(
     color: AppColor = AppTheme.buttonColors.primary(enabled),
     shape: Shape = RoundedCornerShape(48.dp)
 ) {
-    Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier, shape = shape) {
+    ButtonIcon(onClick, modifier, enabled, color, shape) {
         Icon(painter = painterResource(id = icon), contentDescription = null, tint = colorIcon.color)
+    }
+}
+
+@Composable
+fun ButtonIcon(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    color: AppColor = AppTheme.buttonColors.primary(enabled),
+    shape: Shape = RoundedCornerShape(48.dp),
+    icon: @Composable () -> Unit,
+) {
+    Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier, shape = shape) {
+        icon()
     }
 }
 
