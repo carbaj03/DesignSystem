@@ -130,7 +130,7 @@ fun Screen(
                 }
             },
             content = {
-                content(PaddingValues(16.dp))
+                content(PaddingValues(horizontal = 16.dp))
                 if (isLoading) Loader()
             }
         )

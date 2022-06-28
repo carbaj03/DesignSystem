@@ -116,7 +116,7 @@ fun MainScreen(mode: (Boolean) -> Unit, navController: NavHostController) {
                 .padding(bottom = it.calculateBottomPadding())
                 .background(AppTheme.colors.background.color),
             columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(16.dp)
+            contentPadding = it
         ) {
             item {
                 MyCard(onClick = { navController.navigate("button") }) {
@@ -166,7 +166,7 @@ fun InputScreen(onBack: (() -> Unit)) {
         var text1 by remember { mutableStateOf("") }
         var text2 by remember { mutableStateOf("") }
 
-        Column(Modifier.padding(16.dp)) {
+        Column(Modifier.padding(it)) {
             InputText(
                 text = text,
                 onTextChange = { text = it },
