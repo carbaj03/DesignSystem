@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -30,12 +31,13 @@ internal fun Button(
     enabled: Boolean = true,
     color: AppColor,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable RowScope.() -> Unit
+    shape: Shape = RoundedCornerShape(48.dp),
+    content: @Composable RowScope.() -> Unit,
 ) {
     Box(
         modifier = Modifier
-            .background(color.color, RoundedCornerShape(48.dp))
-            .clip(RoundedCornerShape(48.dp))
+            .background(color.color, shape)
+            .clip(shape)
             .clickable(
                 interactionSource = interactionSource,
                 indication = rememberRipple(),
@@ -143,6 +145,21 @@ fun ButtonTertiary(
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)
         }
+    }
+}
+
+@Composable
+fun ButtonIcon(
+    @DrawableRes icon: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    colorIcon: AppColor = AppTheme.buttonColors.primary.colorFor(enabled),
+    color: AppColor = AppTheme.buttonColors.primary(enabled),
+    shape: Shape = RoundedCornerShape(48.dp)
+) {
+    Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier, shape = shape) {
+        Icon(painter = painterResource(id = icon), contentDescription = null, tint = colorIcon.color)
     }
 }
 

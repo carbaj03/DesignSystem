@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.fintonic.designsystem.components.Screen
 import com.fintonic.designsystem.components.SnackBarState
 import com.fintonic.designsystem.components.SpacerVertical
+import com.fintonic.designsystem.components.button.ButtonIcon
 import com.fintonic.designsystem.components.button.ButtonPrimary
 import com.fintonic.designsystem.components.button.ButtonSecondary
 import com.fintonic.designsystem.components.button.ButtonTertiary
@@ -185,7 +186,7 @@ fun InputScreen(onBack: (() -> Unit)) {
                 onTextChange = { text2 = it },
                 placeholder = "sadfs",
                 currency = "€",
-                subText = SubText.Info("Tendrñas : 222")
+                subText = SubText.Info("Tendras : 222")
             )
         }
     }
@@ -206,6 +207,8 @@ fun ButtonScreen(onBack: (() -> Unit), state: SnackBarState?, isLoading: Boolean
                 .padding(it)
                 .verticalScroll(scrollState)
         ) {
+            ButtonIcon(icon = R.drawable.ic_help, onClick = { /*TODO*/ }, color = AppColor.Black, colorIcon = AppColor.Blue)
+
             ButtonPrimary(onClick = { /*TODO*/ }, text = "Primary", modifier = Modifier.fillMaxWidth())
             SpacerVertical(10.dp)
             ButtonPrimary(onClick = { /*TODO*/ }, iconLeft = R.drawable.ic_help, iconRight = R.drawable.ic_info, text = "Primary")
