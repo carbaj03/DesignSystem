@@ -1,6 +1,5 @@
 package com.fintonic.designsystem.components.button
 
-import android.graphics.drawable.Icon
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
