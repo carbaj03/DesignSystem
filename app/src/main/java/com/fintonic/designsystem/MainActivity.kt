@@ -1,6 +1,7 @@
 package com.fintonic.designsystem
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -37,6 +38,8 @@ import com.fintonic.designsystem.components.text.BoldSpanned
 import com.fintonic.designsystem.components.text.Text
 import com.fintonic.designsystem.components.text.TextSpanned
 import com.fintonic.designsystem.components.text.TextSpannedStyle
+import com.fintonic.designsystem.components.webview.MenuItem
+import com.fintonic.designsystem.components.webview.Navigator
 import com.fintonic.designsystem.foundation.*
 import kotlinx.coroutines.delay
 
@@ -76,6 +79,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable("input") {
                     InputScreen(onBack = { navController.popBackStack() })
+                }
+                composable("webview") {
+                    WebViewScreen(onBack = { navController.popBackStack() })
                 }
             }
         }
@@ -144,6 +150,11 @@ fun MainScreen(mode: (Boolean) -> Unit, navController: NavHostController) {
                     Text(text = "Color", style = appTypography.bodyM, color = AppColor.Black)
                 }
             }
+            item {
+                MyCard(onClick = { navController.navigate("webview") }) {
+                    Text(text = "Webview", style = appTypography.bodyM, color = AppColor.Black)
+                }
+            }
         }
     }
 }
@@ -195,6 +206,25 @@ fun InputScreen(onBack: (() -> Unit)) {
             )
         }
     }
+}
+
+@Composable
+fun WebViewScreen(onBack: (() -> Unit)) {
+    com.fintonic.designsystem.components.webview.WebViewScreen(
+        title = "WebView",
+        onBack = onBack,
+        navigator = object : Navigator {
+            override fun fromUri(uri: Uri, actionView: String) {
+                TODO("Not yet implemented")
+            }
+
+            override fun exit() {
+                TODO("Not yet implemented")
+            }
+        },
+        url = "https://www.marca.com/en/",
+        menuItems = listOf(MenuItem(action = {}, R.drawable.ic_help), MenuItem(action = {}, R.drawable.ic_info))
+    )
 }
 
 @Composable
