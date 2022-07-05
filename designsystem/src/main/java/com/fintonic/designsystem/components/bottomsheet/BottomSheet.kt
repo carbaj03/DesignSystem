@@ -39,6 +39,30 @@ fun <A : BottomSheetModel> BottomSheet(
 }
 
 @Composable
+fun BottomSheet(
+    title: String,
+    values: List<Pair<String, () -> Unit>>,
+) {
+    LazyColumn(Modifier.padding(bottom = 10.dp)) {
+        item {
+            Text(
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+                text = title,
+                style = appTypography.headingXS,
+                color = AppColor.Gray70
+            )
+        }
+
+        items(values) {
+            BottomSheetItem(
+                text = it.first,
+                onClick = it.second
+            )
+        }
+    }
+}
+
+@Composable
 fun <A : BottomSheetModel> BottomSheetItem(
     type: A,
     onClick: (A) -> Unit
@@ -47,6 +71,22 @@ fun <A : BottomSheetModel> BottomSheetItem(
         text = stringResource(id = type.text),
         modifier = Modifier
             .clickable { onClick(type) }
+            .padding(horizontal = 20.dp, vertical = 10.dp)
+            .fillMaxWidth(),
+        style = appTypography.bodyL,
+        color = AppColor.Gray100
+    )
+}
+
+@Composable
+fun BottomSheetItem(
+    text: String,
+    onClick: () -> Unit
+) {
+    Text(
+        text = text,
+        modifier = Modifier
+            .clickable { onClick() }
             .padding(horizontal = 20.dp, vertical = 10.dp)
             .fillMaxWidth(),
         style = appTypography.bodyL,

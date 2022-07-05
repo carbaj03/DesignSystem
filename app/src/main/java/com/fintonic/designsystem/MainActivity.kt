@@ -26,6 +26,7 @@ import androidx.navigation.compose.rememberNavController
 import com.fintonic.designsystem.components.Screen
 import com.fintonic.designsystem.components.SnackBarState
 import com.fintonic.designsystem.components.SpacerVertical
+import com.fintonic.designsystem.components.bottomsheet.BottomSheet
 import com.fintonic.designsystem.components.button.ButtonIcon
 import com.fintonic.designsystem.components.button.ButtonPrimary
 import com.fintonic.designsystem.components.button.ButtonSecondary
