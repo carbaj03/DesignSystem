@@ -40,7 +40,7 @@ fun Loader(modifier: Modifier = Modifier) {
             modifier = modifier
                 .requiredSize(72.dp),
             composition = composition,
-            progress = progress,
+            progress = { progress }
         )
     }
 }

@@ -32,12 +32,8 @@ fun WebViewScreen(
 
     var newTitle by remember(title) { mutableStateOf(title) }
     var toolbarItems: List<MenuItem>? by remember { mutableStateOf(menuItems) }
-    var isLoading: Boolean by remember { mutableStateOf(false) }
+    var isLoading: Boolean by remember { mutableStateOf(true) }
     var callback: ValueCallback<Array<Uri>>? by remember { mutableStateOf(null) }
-
-    if (isLoading) {
-        Loader()
-    }
 
     ModalBottomSheetLayout(
         sheetState = scaffoldState,
@@ -122,5 +118,8 @@ fun WebViewScreen(
                 onError = { _, _ -> }
             )
         }
+    }
+    if (isLoading) {
+        Loader()
     }
 }

@@ -205,6 +205,10 @@ fun InputScreen(onBack: (() -> Unit)) {
                 currency = "€",
                 subText = SubText.Info("Tendras : 222")
             )
+            
+            BottomSheet(title = "sf") {
+                
+            }
         }
     }
 }
