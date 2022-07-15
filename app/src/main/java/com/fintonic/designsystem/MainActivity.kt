@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf(false)
                     }
 
-                    LaunchedEffect(key1 = null, block = { delay(2000); state = SnackBarState.Show("asfd"); delay(2000); state = null })
+                    LaunchedEffect(key1 = null, block = { delay(2000); state = SnackBarState.Show("asfd", AppColor.Green); delay(2000); state = null })
                     LaunchedEffect(key1 = null, block = { isLoading = true; delay(2000); isLoading = false })
 
                     ButtonScreen(onBack = { navController.popBackStack() }, state = state, isLoading = isLoading)

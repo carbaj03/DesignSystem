@@ -115,7 +115,7 @@ fun Screen(
                     ) {
                         Row(
                             Modifier
-                                .background(color = AppColor.Green.color)
+                                .background(color = snackBarState?.color?.color ?: AppColor.Gray70.color)
                                 .padding(20.dp)
                                 .fillMaxWidth()
                         ) {
@@ -138,9 +138,9 @@ fun Screen(
 }
 
 
-sealed class SnackBarState(open val text: String) {
-    data class Show(override val text: String) : SnackBarState(text)
-    data class Dismiss(override val text: String) : SnackBarState(text)
+sealed class SnackBarState(open val text: String, open val color: AppColor) {
+    data class Show(override val text: String, override val color: AppColor) : SnackBarState(text, color)
+    data class Dismiss(override val text: String, override val color: AppColor) : SnackBarState(text, color)
 }
 
 
