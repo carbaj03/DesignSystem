@@ -1,9 +1,14 @@
 package com.fintonic.designsystem.components.webview
 
+import android.annotation.TargetApi
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.view.ViewGroup
 import android.webkit.*
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,7 +21,7 @@ fun WebView(
     captureBackPresses: Boolean = true,
     navigator: WebViewNavigator = rememberWebViewNavigator(),
     onCreated: WebView.() -> Unit = {},
-    onFileChooser: (filePathCallback: ValueCallback<Array<Uri>>?) -> Unit = {  },
+    onFileChooser: (filePathCallback: ValueCallback<Array<Uri>>?) -> Boolean = { false },
     onError: (request: WebResourceRequest?, error: WebResourceError?) -> Unit = { _, _ -> }
 ) {
     var webView by remember { mutableStateOf<WebView?>(null) }
@@ -60,10 +65,7 @@ fun WebView(
                         webView: WebView?,
                         filePathCallback: ValueCallback<Array<Uri>>?,
                         fileChooserParams: FileChooserParams?
-                    ): Boolean {
-                        onFileChooser(filePathCallback)
-                        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams)
-                    }
+                    ): Boolean = onFileChooser(filePathCallback)
                 }
 
                 webViewClient = object : WebViewClient() {

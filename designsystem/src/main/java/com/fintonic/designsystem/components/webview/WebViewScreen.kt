@@ -31,8 +31,6 @@ fun WebViewScreen(
     val scope = rememberCoroutineScope()
     val state: WebViewState = rememberWebViewState(url = url,)
 
-
-
     var newTitle by remember(title) { mutableStateOf(title) }
     var toolbarItems: List<MenuItem>? by remember { mutableStateOf(menuItems) }
     var isLoading: Boolean by remember { mutableStateOf(true) }
@@ -115,6 +113,7 @@ fun WebViewScreen(
                 onFileChooser = {
                     callback = it
                     scope.launch { scaffoldState.show() }
+                    true
                 },
                 captureBackPresses = captureBackPresses,
                 onError = { _, _ -> }

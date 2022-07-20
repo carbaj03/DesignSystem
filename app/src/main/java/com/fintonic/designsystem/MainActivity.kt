@@ -1,10 +1,17 @@
 package com.fintonic.designsystem
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.webkit.ValueCallback
+import android.webkit.WebChromeClient
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,6 +35,7 @@ import com.fintonic.designsystem.components.Screen
 import com.fintonic.designsystem.components.SnackBarState
 import com.fintonic.designsystem.components.SpacerVertical
 import com.fintonic.designsystem.components.bottomsheet.BottomSheet
+import com.fintonic.designsystem.components.bottomsheet.BottomSheetModel
 import com.fintonic.designsystem.components.button.ButtonIcon
 import com.fintonic.designsystem.components.button.ButtonPrimary
 import com.fintonic.designsystem.components.button.ButtonSecondary
@@ -41,10 +50,39 @@ import com.fintonic.designsystem.components.text.TextSpanned
 import com.fintonic.designsystem.components.text.TextSpannedStyle
 import com.fintonic.designsystem.components.webview.MenuItem
 import com.fintonic.designsystem.components.webview.Navigator
+import com.fintonic.designsystem.components.webview.Options
+import com.fintonic.designsystem.components.webview.WebViewScreen
 import com.fintonic.designsystem.foundation.*
 import kotlinx.coroutines.delay
+import java.io.File
 
 class MainActivity : ComponentActivity() {
+
+    var uploadMessage: ValueCallback<Array<Uri>>? = null
+
+    val photoResult: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.getStringExtra("RESULT")
+                ?.let { File(it).toUri() }
+                ?.let { uploadMessage?.onReceiveValue(arrayOf(it)) }
+                ?: uploadMessage?.onReceiveValue(null)
+            uploadMessage = null
+        } else {
+            uploadMessage?.onReceiveValue(null)
+            uploadMessage = null
+        }
+    }
+
+    val fileChooserResult: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            WebChromeClient.FileChooserParams.parseResult(result.resultCode, result.data)
+                ?.let { uploadMessage?.onReceiveValue(it) }
+            uploadMessage = null
+        } else {
+            uploadMessage?.onReceiveValue(null)
+            uploadMessage = null
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +125,57 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+    @Composable
+    fun WebViewScreen(onBack: () -> Unit) {
+        WebViewScreen(
+            title = "WebView",
+            onBack = onBack,
+            navigator = object : Navigator {
+                override fun fromUri(uri: Uri, actionView: String) {
+                    TODO("Not yet implemented")
+                }
+
+                override fun exit() {
+                    TODO("Not yet implemented")
+                }
+            },
+            url = "https://1a6y.short.gy/Divisas",
+            menuItems = listOf(MenuItem(action = {}, R.drawable.ic_help), MenuItem(action = {}, R.drawable.ic_info)),
+            options = Options(R.string.app_name, MoreActionExchange.values().toList()),
+            onFileChooser = { filePathCallback, action ->
+                if (uploadMessage != null) {
+                    uploadMessage?.onReceiveValue(null)
+                    uploadMessage = null
+                }
+
+                uploadMessage = filePathCallback
+
+                when (action) {
+                    MoreActionExchange.Photo -> {
+//                        photoResult.launch(InsurancePolicyCaptureActivity(this))
+                    }
+                    MoreActionExchange.File -> {
+                        val contentSelection = Intent(Intent.ACTION_GET_CONTENT)
+                        contentSelection.addCategory(Intent.CATEGORY_OPENABLE)
+                        contentSelection.type = "*/*"
+                        val extraMimeTypes = arrayOf("application/pdf", "image/jpeg", "image/png")
+                        contentSelection.putExtra(Intent.EXTRA_MIME_TYPES, extraMimeTypes)
+                        fileChooserResult.launch(Intent.createChooser(contentSelection, getString(action.text)))
+                    }
+                }
+            }
+
+        )
+    }
+}
+
+enum class MoreActionExchange(
+    @StringRes override val text: Int
+) : BottomSheetModel {
+    Photo(androidx.compose.ui.R.string.close_drawer),
+    File(androidx.compose.ui.R.string.close_sheet),
 }
 
 @SuppressLint("ComposableNaming")
@@ -205,31 +294,12 @@ fun InputScreen(onBack: (() -> Unit)) {
                 currency = "€",
                 subText = SubText.Info("Tendras : 222")
             )
-            
+
             BottomSheet(title = "sf") {
-                
+
             }
         }
     }
-}
-
-@Composable
-fun WebViewScreen(onBack: (() -> Unit)) {
-    com.fintonic.designsystem.components.webview.WebViewScreen(
-        title = "WebView",
-        onBack = onBack,
-        navigator = object : Navigator {
-            override fun fromUri(uri: Uri, actionView: String) {
-                TODO("Not yet implemented")
-            }
-
-            override fun exit() {
-                TODO("Not yet implemented")
-            }
-        },
-        url = "https://1a6y.short.gy/Divisas",
-        menuItems = listOf(MenuItem(action = {}, R.drawable.ic_help), MenuItem(action = {}, R.drawable.ic_info))
-    )
 }
 
 @Composable
