@@ -16,7 +16,7 @@ fun WebView(
     captureBackPresses: Boolean = true,
     navigator: WebViewNavigator = rememberWebViewNavigator(),
     onCreated: WebView.() -> Unit = {},
-    onFileChooser: (filePathCallback: ValueCallback<Array<Uri>>?) -> Boolean = { false },
+    onFileChooser: (filePathCallback: ValueCallback<Array<Uri>>?) -> Unit = {  },
     onError: (request: WebResourceRequest?, error: WebResourceError?) -> Unit = { _, _ -> }
 ) {
     var webView by remember { mutableStateOf<WebView?>(null) }
@@ -60,7 +60,10 @@ fun WebView(
                         webView: WebView?,
                         filePathCallback: ValueCallback<Array<Uri>>?,
                         fileChooserParams: FileChooserParams?
-                    ): Boolean = onFileChooser(filePathCallback)
+                    ): Boolean {
+                        onFileChooser(filePathCallback)
+                        return super.onShowFileChooser(webView, filePathCallback, fileChooserParams)
+                    }
                 }
 
                 webViewClient = object : WebViewClient() {

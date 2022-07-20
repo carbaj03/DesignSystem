@@ -24,11 +24,14 @@ fun WebViewScreen(
     navigator: Navigator,
     options: Options? = null,
     menuItems: List<MenuItem>? = null,
+    captureBackPresses: Boolean = true,
     onFileChooser: (filePathCallback: ValueCallback<Array<Uri>>?, BottomSheetModel) -> Unit = { _, _ -> },
 ) {
     val scaffoldState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val scope = rememberCoroutineScope()
-    val state: WebViewState = rememberWebViewState(url = url)
+    val state: WebViewState = rememberWebViewState(url = url,)
+
+
 
     var newTitle by remember(title) { mutableStateOf(title) }
     var toolbarItems: List<MenuItem>? by remember { mutableStateOf(menuItems) }
@@ -112,9 +115,8 @@ fun WebViewScreen(
                 onFileChooser = {
                     callback = it
                     scope.launch { scaffoldState.show() }
-                    true
                 },
-                captureBackPresses = false,
+                captureBackPresses = captureBackPresses,
                 onError = { _, _ -> }
             )
         }

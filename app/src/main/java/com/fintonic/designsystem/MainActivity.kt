@@ -227,7 +227,7 @@ fun WebViewScreen(onBack: (() -> Unit)) {
                 TODO("Not yet implemented")
             }
         },
-        url = "https://www.marca.com/en/",
+        url = "https://1a6y.short.gy/Divisas",
         menuItems = listOf(MenuItem(action = {}, R.drawable.ic_help), MenuItem(action = {}, R.drawable.ic_info))
     )
 }
