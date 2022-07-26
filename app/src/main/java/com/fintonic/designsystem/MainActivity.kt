@@ -22,8 +22,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -141,7 +143,7 @@ class MainActivity : ComponentActivity() {
                     TODO("Not yet implemented")
                 }
             },
-            url = "https://1a6y.short.gy/Divisas",
+            url = "https://sign-app.sandbox.signaturit.com/en/34d1213/d9132a44-5497-4543-ab23-1a2cc80d7349/1f0e41e1-e891-4bec-b995-90b726a34895/signers/0/documents/1f0e41e1-e891-4bec-b995-90b726a34895",
             menuItems = listOf(MenuItem(action = {}, R.drawable.ic_help), MenuItem(action = {}, R.drawable.ic_info)),
             options = Options(R.string.app_name, MoreActionExchange.values().toList()),
             onFileChooser = { filePathCallback, action ->
@@ -392,16 +394,29 @@ fun TypographyScreen(
         LazyColumn(content = {
             item {
                 BoldSpanned(style = appTypography.detail, text = "Alejandro Carbajo Vidales", textInBold = arrayOf("Hola", "Alejandro", "Vidales"))
+
                 TextSpanned(
                     TextSpannedStyle("Hola", appTypography.bodyL, AppColor.Coral.color),
-                    TextSpannedStyle("Alejandro Carbajo", appTypography.bodyS, AppColor.Coral.color, { Toast.makeText(context, it, Toast.LENGTH_LONG).show() }),
+                    TextSpannedStyle(
+                        text = "Alejandro Carbajo",
+                        textStyle = appTypography.bodyS,
+                        color = AppColor.Blue30.color,
+                        onClick = { Toast.makeText(context, it, Toast.LENGTH_LONG).show() },
+                    ),
                     style = appTypography.detail.copy(color = AppColor.Orange70.color),
                     text = "Hola Alejandro Carbajo Vidales",
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
             items(typographys) {
-                Text(style = it.second, text = it.first)
+                Text(
+                    style = it.second,
+                    text = it.first,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
         })
 //        Column(Modifier.padding(it)) {
