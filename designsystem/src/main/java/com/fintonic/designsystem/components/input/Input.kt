@@ -351,7 +351,7 @@ fun InputCurrency(
                             onTextChange(it.text)
                         }
                     },
-                    textStyle = appTypography.headingM.copy(textAlign = TextAlign.End),
+                    textStyle = appTypography.headingM.copy(textAlign = TextAlign.End, color = AppColor.Black.color),
                     keyboardActions = keyboardActions,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     maxLines = maxLines,
