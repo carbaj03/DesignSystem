@@ -1,6 +1,5 @@
 package com.fintonic.designsystem.components.input
 
-import android.media.effect.Effect
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -21,7 +20,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
@@ -302,7 +300,12 @@ fun InputCurrency(
     maxLines: Int = 1,
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    allowDecimals: Boolean = false
 ) {
+    val regex = remember(allowDecimals) {
+        if (allowDecimals) "^\\d*\\.?\\d*${'$'}".toRegex()
+        else "^\\d+\$".toRegex()
+    }
 
     var focused by remember { mutableStateOf(false) }
 
@@ -343,7 +346,7 @@ fun InputCurrency(
                         .focusRequester(focusRequester),
                     value = textFieldValueState,
                     onValueChange = {
-                        if (it.text.contains("^\\d*\\.?\\d*${'$'}".toRegex())) {
+                        if (it.text.contains(regex)) {
                             textFieldValueState = it
                             onTextChange(it.text)
                         }

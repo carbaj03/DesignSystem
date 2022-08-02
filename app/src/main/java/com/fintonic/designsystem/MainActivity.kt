@@ -274,6 +274,7 @@ fun InputScreen(onBack: (() -> Unit)) {
         var text by remember { mutableStateOf("") }
         var text1 by remember { mutableStateOf("") }
         var text2 by remember { mutableStateOf("") }
+        var text3 by remember { mutableStateOf("") }
 
         Column(Modifier.padding(it)) {
             InputText(
@@ -297,6 +298,15 @@ fun InputScreen(onBack: (() -> Unit)) {
                 subText = SubText.Info("Tendras : 222")
             )
 
+
+            InputCurrency(
+                text = text3,
+                onTextChange = { text3 = it },
+                placeholder = "sadfs",
+                currency = "€",
+                subText = SubText.Info("Tendras : 222"),
+                allowDecimals = true
+            )
             BottomSheet(title = "sf") {
 
             }
