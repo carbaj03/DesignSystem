@@ -346,7 +346,7 @@ fun InputCurrency(
                         .focusRequester(focusRequester),
                     value = textFieldValueState,
                     onValueChange = {
-                        if (it.text.contains(regex)) {
+                        if (it.text.contains(regex) || it.text.isBlank()) {
                             textFieldValueState = it
                             onTextChange(it.text)
                         }
