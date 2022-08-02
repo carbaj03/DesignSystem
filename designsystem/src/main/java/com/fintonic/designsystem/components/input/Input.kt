@@ -1,5 +1,6 @@
 package com.fintonic.designsystem.components.input
 
+import android.media.effect.Effect
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -19,11 +20,15 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import com.fintonic.designsystem.R
 import com.fintonic.designsystem.components.SpacerVertical
 import com.fintonic.designsystem.components.text.Text
@@ -299,11 +304,20 @@ fun InputCurrency(
     readOnly: Boolean = false,
 ) {
 
-    var focused by remember {
-        mutableStateOf(false)
-    }
+    var focused by remember { mutableStateOf(false) }
 
     val focusRequester = FocusRequester()
+
+    var textFieldValueState by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = text,
+                selection = TextRange(
+                    index = text.length
+                )
+            )
+        )
+    }
 
     Column(
         modifier = modifier
@@ -316,14 +330,24 @@ fun InputCurrency(
                     .weight(1f)
             ) {
                 if (!focused && text.isBlank())
-                    Text(text = placeholder, style = appTypography.bodyL, color = AppColor.Gray70, textAlign = TextAlign.End)
+                    Text(
+                        text = placeholder,
+                        style = appTypography.bodyL,
+                        color = AppColor.Gray70,
+                        textAlign = TextAlign.End
+                    )
 
                 BasicTextField(
                     modifier = modifier
                         .fillMaxWidth()
                         .focusRequester(focusRequester),
-                    value = text,
-                    onValueChange = { onTextChange(it.replace(".", "").replace("[^\\d,]".toRegex(), "").replace(" ", "")) },
+                    value = textFieldValueState,
+                    onValueChange = {
+                        if (it.text.contains("^\\d*\\.?\\d*${'$'}".toRegex())) {
+                            textFieldValueState = it
+                            onTextChange(it.text)
+                        }
+                    },
                     textStyle = appTypography.headingM.copy(textAlign = TextAlign.End),
                     keyboardActions = keyboardActions,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -379,12 +403,27 @@ fun InputCurrency(
     }
 }
 
+class AmountOrMessageVisualTransformation : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return TransformedText(
+            text = AnnotatedString(text.text.replace(Regex("""^\d*\.?\d*${'$'}"""), "")),
+            offsetMapping = object : OffsetMapping {
+                override fun originalToTransformed(offset: Int): Int =
+                    if (text.isDigitsOnly()) offset else offset - 1
+
+                override fun transformedToOriginal(offset: Int): Int =
+                    if (text.isDigitsOnly()) offset else offset + 1
+            }
+        )
+    }
+}
+
 @Preview
 @Composable
 fun Test() {
     InputCurrency(
         text = "sd",
-        onTextChange = {},
+        onTextChange = { "" },
         placeholder = "sefa",
         currency = "€"
     )
