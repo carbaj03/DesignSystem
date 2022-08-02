@@ -11,11 +11,12 @@ import com.fintonic.designsystem.foundation.DesignSystemTheme
 
 fun ComponentActivity.template(
     parent: CompositionContext? = null,
+    enabledDarkTheme : Boolean = false,
     content: @Composable ((Boolean) -> Unit) -> Unit,
 ) {
     setContent(parent) {
-        val start = isSystemInDarkTheme()
-        var mode by remember { mutableStateOf(start) }
+        val isDarkTheme = isSystemInDarkTheme()
+        var mode by remember { mutableStateOf(if(enabledDarkTheme) isDarkTheme else false) }
 
         DesignSystemTheme(mode) {
             Surface(color = AppColor.Blue, elevation = 20.dp) {
