@@ -276,6 +276,11 @@ fun InputScreen(onBack: (() -> Unit)) {
         var text2 by remember { mutableStateOf("") }
         var text3 by remember { mutableStateOf("") }
 
+        LaunchedEffect(key1 = "Initial", block = {
+            text2 = "324"
+            text3 = "1"
+        })
+
         Column(Modifier.padding(it)) {
             InputText(
                 text = text,
@@ -297,16 +302,14 @@ fun InputScreen(onBack: (() -> Unit)) {
                 currency = "€",
                 subText = SubText.Info("Tendras : 222")
             )
-
-
-            InputCurrency(
-                text = text3,
-                onTextChange = { text3 = it },
-                placeholder = "sadfs",
-                currency = "€",
-                subText = SubText.Info("Tendras : 222"),
-                allowDecimals = true
-            )
+//            InputCurrency(
+//                text = text3,
+//                onTextChange = { text3 = it },
+//                placeholder = "sadfs",
+//                currency = "€",
+//                subText = SubText.Info("Tendras : 222"),
+//                allowDecimals = true
+//            )
             BottomSheet(title = "sf") {
 
             }

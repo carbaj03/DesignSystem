@@ -1,5 +1,6 @@
 package com.fintonic.designsystem.components.input
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -320,6 +321,10 @@ fun InputCurrency(
                 )
             )
         )
+    }
+
+    if (textFieldValueState.text != text) {
+        textFieldValueState = textFieldValueState.copy(text)
     }
 
     Column(
