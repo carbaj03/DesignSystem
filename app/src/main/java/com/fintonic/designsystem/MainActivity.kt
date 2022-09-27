@@ -22,7 +22,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +44,7 @@ import com.fintonic.designsystem.components.button.ButtonTertiary
 import com.fintonic.designsystem.components.input.InputCurrency
 import com.fintonic.designsystem.components.input.InputText
 import com.fintonic.designsystem.components.input.SubText
+import com.fintonic.designsystem.components.search.Searcher
 import com.fintonic.designsystem.components.template
 import com.fintonic.designsystem.components.text.BoldSpanned
 import com.fintonic.designsystem.components.text.Text
@@ -302,6 +302,7 @@ fun InputScreen(onBack: (() -> Unit)) {
                 currency = "€",
                 subText = SubText.Info("Tendras : 222")
             )
+            Searcher(text = text3, placeholder = "Busca", onTextChange = { text3 = it })
 //            InputCurrency(
 //                text = text3,
 //                onTextChange = { text3 = it },

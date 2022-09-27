@@ -3,6 +3,7 @@ package com.fintonic.designsystem.components.webview
 import android.content.Intent
 import android.net.Uri
 import android.webkit.ValueCallback
+import android.webkit.WebSettings
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.res.painterResource
@@ -109,6 +110,7 @@ fun WebViewScreen(
                     settings.javaScriptEnabled = true
                     settings.domStorageEnabled = true
                     settings.allowFileAccess = true
+                    settings.cacheMode = WebSettings.LOAD_NO_CACHE
                 },
                 onFileChooser = {
                     callback = it

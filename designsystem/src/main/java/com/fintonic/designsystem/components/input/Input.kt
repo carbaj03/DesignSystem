@@ -210,7 +210,6 @@ fun InputText(
     onTextChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
-    label: String? = null,
     subText: SubText? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
@@ -285,6 +284,68 @@ fun InputText(
                 is SubText.Error -> Text(text = it.text, style = appTypography.bodyS, color = AppColor.Coral)
                 is SubText.Info -> Text(text = it.text, style = appTypography.bodyS, color = AppColor.Gray70)
             }
+        }
+    }
+}
+
+@Composable
+fun InputTextBasic(
+    text: String,
+    onTextChange: (String) -> Unit,
+    placeholder: String,
+    modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions(),
+    maxLines: Int = Int.MAX_VALUE,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+) {
+
+    var focused by remember {
+        mutableStateOf(false)
+    }
+
+    val focusRequester = FocusRequester()
+
+    Column(
+        modifier = modifier
+            .defaultMinSize(minWidth = TextFieldDefaults.MinWidth)
+            .onFocusChanged { focused = it.isFocused }
+    ) {
+        Row {
+            Box(
+                modifier = modifier
+                    .weight(1f)
+            ) {
+                if (!focused && text.isBlank())
+                    Text(text = placeholder, style = appTypography.bodyL, color = AppColor.Gray70)
+
+                BasicTextField(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
+                    value = text,
+                    onValueChange = { onTextChange(it) },
+                    textStyle = appTypography.bodyL,
+                    keyboardActions = keyboardActions,
+                    keyboardOptions = keyboardOptions,
+                    maxLines = maxLines,
+                    singleLine = maxLines == 1,
+                    enabled = enabled,
+                    readOnly = readOnly,
+                    cursorBrush = SolidColor(AppColor.Blue.color),
+                )
+            }
+
+            if (text.isNotBlank() || !readOnly && !enabled)
+                Icon(
+                    modifier = Modifier.clickable {
+                        onTextChange("")
+                        focusRequester.requestFocus()
+                    },
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = null
+                )
         }
     }
 }
