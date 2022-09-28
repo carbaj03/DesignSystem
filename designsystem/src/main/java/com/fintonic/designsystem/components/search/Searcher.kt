@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +22,9 @@ fun Searcher(
     text: String,
     placeholder: String,
     onTextChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onSearch: (String) -> Unit = {},
+    hasFocus: (Boolean) -> Unit = {},
 ) {
     Row(
         modifier = Modifier
@@ -37,7 +41,12 @@ fun Searcher(
             modifier = modifier,
             text = text,
             onTextChange = onTextChange,
-            placeholder = placeholder
+            placeholder = placeholder,
+            keyboardActions =   KeyboardActions(
+                onSearch = { onSearch(text) }
+            ),
+            keyboardOptions = KeyboardOptions.Default,
+            hasFocus = hasFocus
         )
     }
 }

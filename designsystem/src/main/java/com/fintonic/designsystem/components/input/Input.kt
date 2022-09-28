@@ -296,6 +296,7 @@ fun InputTextBasic(
     modifier: Modifier = Modifier,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     keyboardActions: KeyboardActions = KeyboardActions(),
+    hasFocus: (Boolean) -> Unit,
     maxLines: Int = Int.MAX_VALUE,
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -310,7 +311,10 @@ fun InputTextBasic(
     Column(
         modifier = modifier
             .defaultMinSize(minWidth = TextFieldDefaults.MinWidth)
-            .onFocusChanged { focused = it.isFocused }
+            .onFocusChanged {
+                focused = it.isFocused
+                hasFocus(it.isFocused)
+            }
     ) {
         Row {
             Box(
