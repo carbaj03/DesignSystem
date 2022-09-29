@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,9 +33,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.fintonic.designsystem.components.Screen
-import com.fintonic.designsystem.components.SnackBarState
-import com.fintonic.designsystem.components.SpacerVertical
+import com.fintonic.designsystem.components.*
 import com.fintonic.designsystem.components.bottomsheet.BottomSheet
 import com.fintonic.designsystem.components.bottomsheet.BottomSheetModel
 import com.fintonic.designsystem.components.button.ButtonIcon
@@ -45,7 +44,6 @@ import com.fintonic.designsystem.components.input.InputCurrency
 import com.fintonic.designsystem.components.input.InputText
 import com.fintonic.designsystem.components.input.SubText
 import com.fintonic.designsystem.components.search.Searcher
-import com.fintonic.designsystem.components.template
 import com.fintonic.designsystem.components.text.BoldSpanned
 import com.fintonic.designsystem.components.text.Text
 import com.fintonic.designsystem.components.text.TextSpanned
@@ -302,7 +300,11 @@ fun InputScreen(onBack: (() -> Unit)) {
                 currency = "€",
                 subText = SubText.Info("Tendras : 222")
             )
-            Searcher(text = text3, placeholder = "Busca", onTextChange = { text3 = it })
+            Row() {
+                Searcher(text = text3, placeholder = "Busca", onTextChange = { text3 = it }, )
+                Spacer(8.dp)
+                ButtonTertiary(text = "sadfds", onClick = { /*TODO*/ })
+            }
 //            InputCurrency(
 //                text = text3,
 //                onTextChange = { text3 = it },

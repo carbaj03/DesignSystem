@@ -140,7 +140,7 @@ fun ButtonTertiary(
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(style = appTypography.bodyM, text = text, color = colorText, textAlign = textAlign)
+        Text(style = appTypography.bodyM, text = text, color = colorText, textAlign = textAlign, maxLines = 1)
         iconRight?.let {
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)

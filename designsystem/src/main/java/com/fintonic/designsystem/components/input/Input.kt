@@ -1,6 +1,5 @@
 package com.fintonic.designsystem.components.input
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -27,6 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.core.text.isDigitsOnly
 import com.fintonic.designsystem.R
 import com.fintonic.designsystem.components.SpacerVertical
@@ -288,6 +289,12 @@ fun InputText(
     }
 }
 
+@Preview
+@Composable
+fun InputTextBasicPreview(){
+InputTextBasic(text = "sa", onTextChange = {}, placeholder = "text", hasFocus = {false})
+}
+
 @Composable
 fun InputTextBasic(
     text: String,
@@ -308,51 +315,122 @@ fun InputTextBasic(
 
     val focusRequester = FocusRequester()
 
-    Column(
-        modifier = modifier
-            .defaultMinSize(minWidth = TextFieldDefaults.MinWidth)
+    ConstraintLayout(
+        modifier
             .onFocusChanged {
                 focused = it.isFocused
                 hasFocus(it.isFocused)
             }
     ) {
-        Row {
-            Box(
-                modifier = modifier
-                    .weight(1f)
-            ) {
-                if (!focused && text.isBlank())
-                    Text(text = placeholder, style = appTypography.bodyL, color = AppColor.Gray70)
+        val (placeholderRef, inputRef, iconRef) = createRefs()
 
-                BasicTextField(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
-                    value = text,
-                    onValueChange = { onTextChange(it) },
-                    textStyle = appTypography.bodyL,
-                    keyboardActions = keyboardActions,
-                    keyboardOptions = keyboardOptions,
-                    maxLines = maxLines,
-                    singleLine = maxLines == 1,
-                    enabled = enabled,
-                    readOnly = readOnly,
-                    cursorBrush = SolidColor(AppColor.Blue.color),
-                )
-            }
+        if (!focused && text.isBlank()) {
+            Text(
+                text = placeholder,
+                style = appTypography.bodyL,
+                color = AppColor.Gray70,
+                modifier = Modifier.constrainAs(placeholderRef) {
+                    top.linkTo(parent.top, margin = 1.dp)
+                    bottom.linkTo(parent.bottom, margin = 1.dp)
+                    end.linkTo(iconRef.start)
+                    start.linkTo(parent.start)
+                }
+            )
+        }
 
-            if (text.isNotBlank() || !readOnly && !enabled)
-                Icon(
-                    modifier = Modifier.clickable {
+        BasicTextField(
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .constrainAs(inputRef) {
+                    top.linkTo(parent.top, margin = 1.dp)
+                    bottom.linkTo(parent.bottom, margin = 1.dp)
+                    end.linkTo(iconRef.start)
+                    start.linkTo(parent.start)
+                    width = Dimension.fillToConstraints
+                },
+            value = text,
+            onValueChange = { onTextChange(it) },
+            textStyle = appTypography.bodyL,
+            keyboardActions = keyboardActions,
+            keyboardOptions = keyboardOptions,
+            maxLines = maxLines,
+            singleLine = maxLines == 1,
+            enabled = enabled,
+            readOnly = readOnly,
+            cursorBrush = SolidColor(AppColor.Blue.color),
+        )
+
+        if (text.isNotBlank() || !readOnly && !enabled) {
+            Icon(
+                modifier = Modifier
+                    .clickable {
                         onTextChange("")
                         focusRequester.requestFocus()
+                    }
+                    .constrainAs(iconRef) {
+                        end.linkTo(parent.end, margin = 1.dp)
+                        top.linkTo(parent.top, margin = 1.dp)
+                        bottom.linkTo(parent.bottom, margin = 1.dp)
+
                     },
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = null
-                )
+                imageVector = Icons.Default.Clear,
+                contentDescription = null
+            )
         }
     }
+
 }
+//    }
+//
+//    Row(modifier = modifier
+//        .defaultMinSize(minWidth = 150.dp)
+//        .onFocusChanged {
+//            focused = it.isFocused
+//            hasFocus(it.isFocused)
+//        }
+//    ) {
+//
+//        Box(Modifier.weight(1f, false)) {
+//            if (!focused && text.isBlank()) {
+//                Text(
+//                    text = placeholder,
+//                    style = appTypography.bodyL,
+//                    color = AppColor.Gray70,
+////                    modifier = Modifier.wrapContentSize()
+//                )
+//            }
+//
+//            BasicTextField(
+//                modifier = Modifier
+////                    .wrapContentSize()
+//                    .focusRequester(focusRequester),
+//                value = text,
+//                onValueChange = { onTextChange(it) },
+//                textStyle = appTypography.bodyL,
+//                keyboardActions = keyboardActions,
+//                keyboardOptions = keyboardOptions,
+//                maxLines = maxLines,
+//                singleLine = maxLines == 1,
+//                enabled = enabled,
+//                readOnly = readOnly,
+//                cursorBrush = SolidColor(AppColor.Blue.color),
+//            )
+//        }
+//
+//        if (text.isNotBlank() || !readOnly && !enabled)
+//            Spacer(modifier = Modifier.fillMaxWidth())
+//            Icon(
+//                modifier = Modifier
+//                    .wrapContentSize()
+//                    .clickable {
+//                        onTextChange("")
+//                        focusRequester.requestFocus()
+//                    },
+//                imageVector = Icons.Default.Clear,
+//                contentDescription = null
+//            )
+//    }
+//}
 
 @Composable
 fun InputCurrency(
