@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -186,6 +187,7 @@ fun <A> LaunchEffect(initial: A, action: suspend () -> A): A {
     return colors
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MainScreen(mode: (Boolean) -> Unit, navController: NavHostController) {
     Screen(
@@ -209,9 +211,6 @@ fun MainScreen(mode: (Boolean) -> Unit, navController: NavHostController) {
 //                Icon(Icons.Filled.Favorite, "")
 //            }
 //        },
-        sheetContent = {
-            Text(text = "sadf")
-        }
     ) {
         LazyVerticalGrid(
             modifier = Modifier
@@ -263,6 +262,7 @@ fun MyCard(onClick: () -> Unit, content: @Composable (BoxScope) -> Unit) {
     )
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun InputScreen(onBack: (() -> Unit)) {
     Screen(
@@ -320,6 +320,7 @@ fun InputScreen(onBack: (() -> Unit)) {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ButtonScreen(onBack: (() -> Unit), state: SnackBarState?, isLoading: Boolean) {
     val scrollState = rememberScrollState()
@@ -396,6 +397,7 @@ fun ButtonScreen(onBack: (() -> Unit), state: SnackBarState?, isLoading: Boolean
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TypographyScreen(
     typographys: List<Pair<String, TextStyle>>,
