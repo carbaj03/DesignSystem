@@ -9,8 +9,11 @@ import com.fintonic.designsystem.foundation.AppColor
 import com.fintonic.designsystem.foundation.AppTheme
 
 @Composable
-fun ItemBack(onBack: () -> Unit, color : AppColor = AppTheme.colors.onToolbar) {
-    IconButton(onClick = onBack) {
+fun ItemBack(
+    color: AppColor = AppTheme.colors.onToolbar,
+    onClick: () -> Unit,
+) {
+    IconButton(onClick = onClick) {
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_left),
             contentDescription = null,
@@ -20,8 +23,11 @@ fun ItemBack(onBack: () -> Unit, color : AppColor = AppTheme.colors.onToolbar) {
 }
 
 @Composable
-fun ItemClose(onClose: () -> Unit , color : AppColor = AppTheme.colors.onToolbar) {
-    IconButton(onClick = onClose) {
+fun ItemClose(
+    color: AppColor = AppTheme.colors.onToolbar,
+    onClick: () -> Unit,
+) {
+    IconButton(onClick = onClick) {
         Icon(
             painter = painterResource(id = R.drawable.ic_close),
             contentDescription = null,
@@ -31,8 +37,11 @@ fun ItemClose(onClose: () -> Unit , color : AppColor = AppTheme.colors.onToolbar
 }
 
 @Composable
-fun ItemQuestion(onQuestion: () -> Unit, color : AppColor = AppTheme.colors.onToolbar) {
-    IconButton(onClick = onQuestion) {
+fun ItemQuestion(
+    color: AppColor = AppTheme.colors.onToolbar,
+    onClick: () -> Unit,
+) {
+    IconButton(onClick = onClick) {
         Icon(
             painter = painterResource(id = R.drawable.ic_question),
             contentDescription = null,
@@ -42,8 +51,11 @@ fun ItemQuestion(onQuestion: () -> Unit, color : AppColor = AppTheme.colors.onTo
 }
 
 @Composable
-fun ItemContactUs(onContactUs: () -> Unit, color : AppColor = AppColor.Blue30) {
-    IconButton(onClick = onContactUs) {
+fun ItemContactUs(
+    color: AppColor = AppColor.Blue30,
+    onClick: () -> Unit,
+) {
+    IconButton(onClick = onClick) {
         Icon(
             painter = painterResource(id = R.drawable.ic_info),
             contentDescription = null,

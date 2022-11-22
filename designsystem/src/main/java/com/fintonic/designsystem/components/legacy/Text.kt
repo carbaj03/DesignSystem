@@ -8,6 +8,11 @@ import com.fintonic.designsystem.foundation.AppColor
 import com.fintonic.designsystem.foundation.appTypography
 
 @Composable
+fun DisplayPrimary(text: String, modifier: Modifier = Modifier, textAlign: TextAlign? = null) {
+    Text(modifier = modifier, text = text, style = appTypography.headingS, color = AppColor.Gray100, textAlign = textAlign)
+}
+
+@Composable
 fun H1Black(
     text: String,
     modifier: Modifier = Modifier,
