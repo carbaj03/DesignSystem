@@ -73,7 +73,7 @@ fun Screen(
                 Toolbar(
                     title = title,
                     itemLeft = {
-                        onBack?.let { ItemBack(onBack = it) } ?: onClose?.let { ItemClose(onClose = it) }
+                        onBack?.let { ItemBack(onClick = it) } ?: onClose?.let { ItemClose(onClick = it) }
                     },
                     itemRight = itemRight,
                     elevation = elevation
