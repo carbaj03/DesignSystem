@@ -37,6 +37,11 @@ fun H3Gray(text: String, modifier: Modifier = Modifier, textAlign: TextAlign? = 
 }
 
 @Composable
+fun H3White(text: String, modifier: Modifier = Modifier, textAlign: TextAlign? = null) {
+    Text(modifier = modifier, text = text, style = appTypography.bodyL, color = AppColor.White, textAlign = textAlign)
+}
+
+@Composable
 fun Micro1Black(text: String, modifier: Modifier = Modifier, textAlign: TextAlign? = null) {
     Text(modifier = modifier, text = text, style = appTypography.bodyM, color = AppColor.Gray100, textAlign = textAlign)
 }

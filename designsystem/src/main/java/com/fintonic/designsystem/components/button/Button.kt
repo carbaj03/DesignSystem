@@ -35,7 +35,7 @@ internal fun Button(
     content: @Composable RowScope.() -> Unit,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(color.color, shape)
             .clip(shape)
             .clickable(
@@ -45,17 +45,16 @@ internal fun Button(
                 role = Role.Button,
                 onClick = onClick
             )
+            .defaultMinSize(
+                minWidth = ButtonDefaults.MinWidth,
+                minHeight = ButtonDefaults.MinHeight
+            )
     ) {
         ProvideTextStyle(
             value = AppTheme.typography.bodyM
         ) {
             Row(
-                modifier = modifier
-                    .defaultMinSize(
-                        minWidth = ButtonDefaults.MinWidth,
-                        minHeight = ButtonDefaults.MinHeight
-                    )
-                    .padding(horizontal = ButtonHorizontalPadding, vertical = ButtonVerticalPadding),
+                modifier = Modifier.padding(horizontal = ButtonHorizontalPadding, vertical = ButtonVerticalPadding),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 content = content
@@ -78,7 +77,7 @@ fun ButtonPrimary(
     val textAlign = remember(iconRight, iconLeft) {
         if (iconRight == null && iconLeft == null) TextAlign.Center else null
     }
-
+    
     Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier) {
         iconLeft?.let {
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
@@ -106,7 +105,7 @@ fun ButtonSecondary(
     val textAlign = remember(iconRight, iconLeft) {
         if (iconRight == null && iconLeft == null) TextAlign.Center else null
     }
-
+    
     Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier.border(BorderStroke(1.dp, colorText.color), RoundedCornerShape(48.dp))) {
         iconLeft?.let {
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
@@ -134,7 +133,7 @@ fun ButtonTertiary(
     val textAlign = remember(iconRight, iconLeft) {
         if (iconRight == null && iconLeft == null) TextAlign.Center else null
     }
-
+    
     Button(onClick = onClick, enabled = enabled, color = color, modifier = modifier) {
         iconLeft?.let {
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
@@ -156,7 +155,7 @@ fun ButtonIcon(
     enabled: Boolean = true,
     colorIcon: AppColor = AppTheme.buttonColors.primary.colorFor(enabled),
     color: AppColor = AppTheme.buttonColors.primary(enabled),
-    shape: Shape = RoundedCornerShape(48.dp)
+    shape: Shape = RoundedCornerShape(48.dp),
 ) {
     ButtonIcon(onClick, modifier, enabled, color, shape) {
         Icon(painter = painterResource(id = icon), contentDescription = null, tint = colorIcon.color)
