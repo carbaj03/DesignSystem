@@ -34,32 +34,29 @@ internal fun Button(
     shape: Shape = RoundedCornerShape(48.dp),
     content: @Composable RowScope.() -> Unit,
 ) {
-    Box(
-        modifier = modifier
-            .background(color.color, shape)
-            .clip(shape)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = rememberRipple(),
-                enabled = enabled,
-                role = Role.Button,
-                onClick = onClick
-            )
-            .defaultMinSize(
-                minWidth = ButtonDefaults.MinWidth,
-                minHeight = ButtonDefaults.MinHeight
-            )
+    ProvideTextStyle(
+        value = AppTheme.typography.bodyM
     ) {
-        ProvideTextStyle(
-            value = AppTheme.typography.bodyM
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = ButtonHorizontalPadding, vertical = ButtonVerticalPadding),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                content = content
-            )
-        }
+        Row(
+            modifier = modifier
+                .defaultMinSize(
+                    minWidth = ButtonDefaults.MinWidth,
+                    minHeight = ButtonDefaults.MinHeight
+                )
+                .background(color.color, shape)
+                .clip(shape)
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = rememberRipple(),
+                    enabled = enabled,
+                    role = Role.Button,
+                    onClick = onClick
+                )
+                .padding(horizontal = ButtonHorizontalPadding, vertical = ButtonVerticalPadding),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            content = content
+        )
     }
 }
 
