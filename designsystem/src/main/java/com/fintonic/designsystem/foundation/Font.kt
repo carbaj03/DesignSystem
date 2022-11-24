@@ -15,30 +15,29 @@ import kotlin.reflect.full.memberProperties
 
 
 val primary: FontFamily = FontFamily(
-    Font(R.font.cerebri_sans_bold, FontWeight.Bold),
-    Font(R.font.cerebri_sans_bold_italic, FontWeight.Bold, FontStyle.Italic),
-    Font(R.font.cerebri_sans_book, FontWeight.Book),
-    Font(R.font.cerebri_sans_book_italic, FontWeight.Book, FontStyle.Italic),
-    Font(R.font.cerebri_sans_extra_bold, FontWeight.ExtraBold),
-    Font(R.font.cerebri_sans_extra_bold_italic, FontWeight.ExtraBold, FontStyle.Italic),
-    Font(R.font.cerebri_sans_heavy, FontWeight.Heavy),
-    Font(R.font.cerebri_sans_heavy_italic, FontWeight.Heavy, FontStyle.Italic),
-    Font(R.font.cerebri_sans_light, FontWeight.Light),
-    Font(R.font.cerebri_sans_light_italic, FontWeight.Light, FontStyle.Italic),
-    Font(R.font.cerebri_sans_medium, FontWeight.Medium),
-    Font(R.font.cerebri_sans_medium_italic, FontWeight.Medium, FontStyle.Italic),
-    Font(R.font.cerebri_sans_semi_bold, FontWeight.SemiBold),
-    Font(R.font.cerebri_sans_semi_bold_italic, FontWeight.SemiBold, FontStyle.Italic),
-    Font(R.font.cerebri_sans_regular, FontWeight.Regular),
-    Font(R.font.cerebri_sans_italic, FontWeight.Regular, FontStyle.Italic),
+    Font(R.font.red_hat_display_bold, FontWeight.Bold),
+    Font(R.font.red_hat_display_bold_italic, FontWeight.Bold, FontStyle.Italic),
+    Font(R.font.red_hat_display_extra_bold, FontWeight.ExtraBold),
+    Font(R.font.red_hat_display_extra_bold_italic, FontWeight.ExtraBold, FontStyle.Italic),
+    Font(R.font.red_hat_display_black, FontWeight.Heavy),
+    Font(R.font.red_hat_display_black_italic, FontWeight.Heavy, FontStyle.Italic),
+    Font(R.font.red_hat_display_light, FontWeight.Light),
+    Font(R.font.red_hat_display_light_italic, FontWeight.Light, FontStyle.Italic),
+    Font(R.font.red_hat_display_medium, FontWeight.Medium),
+    Font(R.font.red_hat_display_medium_italic, FontWeight.Medium, FontStyle.Italic),
+    Font(R.font.red_hat_display_semi_bold, FontWeight.SemiBold),
+    Font(R.font.red_hat_display_semi_bold_italic, FontWeight.SemiBold, FontStyle.Italic),
+    Font(R.font.red_hat_display_regular, FontWeight.Regular),
+    Font(R.font.red_hat_display_italic, FontWeight.Regular, FontStyle.Italic),
 )
 
 val FontWeight.Companion.Regular get() = W400
-val FontWeight.Companion.Book get() = FontWeight(450)
 val FontWeight.Companion.Heavy get() = W900
 
-val defaultLetterSpacing = (-0.7).sp
-val defaultLineHeight = 16.sp
+val lowLetterSpacing = (-0.1).sp
+val mediumLetterSpacing = (-0.3).sp
+val highLetterSpacing = (-0.5).sp
+val defaultLineHeight = 15.sp
 
 internal val defaultBodyColor = AppColor.Gray100.color
 internal val defaultHeadingColor = AppColor.Gray100.color
@@ -70,32 +69,32 @@ val appTypography: AppTypography =
         detail = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
-            fontSize = 12.sp,
+            fontSize = 11.sp,
             lineHeight = defaultLineHeight,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = lowLetterSpacing,
         ),
         bodyS = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
-            fontSize = 14.sp,
-            lineHeight = 20.sp,
-            letterSpacing = defaultLetterSpacing,
+            fontSize = 13.sp,
+            lineHeight = 19.sp,
+            letterSpacing = lowLetterSpacing,
             color = defaultBodyColor
         ),
         bodyM = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
-            fontSize = 16.sp,
-            lineHeight = 22.sp,
-            letterSpacing = defaultLetterSpacing,
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
+            letterSpacing = lowLetterSpacing,
             color = defaultBodyColor
         ),
         bodyL = TextStyle(
             fontFamily = primary,
             fontWeight = FontWeight.Regular,
-            fontSize = 18.sp,
-            lineHeight = 24.sp,
-            letterSpacing = defaultLetterSpacing,
+            fontSize = 16.sp,
+            lineHeight = 22.sp,
+            letterSpacing = lowLetterSpacing,
             color = defaultBodyColor
         ),
         heading2XS = TextStyle(
@@ -103,7 +102,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.Medium,
             fontSize = 16.sp,
             lineHeight = 22.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = mediumLetterSpacing,
             color = defaultHeadingColor
         ),
         headingXS = TextStyle(
@@ -111,7 +110,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.Medium,
             fontSize = 20.sp,
             lineHeight = 26.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = mediumLetterSpacing,
             color =  defaultHeadingColor
         ),
         headingS = TextStyle(
@@ -119,7 +118,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.Medium,
             fontSize = 24.sp,
             lineHeight = 32.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = mediumLetterSpacing,
             color =  defaultHeadingColor
         ),
         headingM = TextStyle(
@@ -127,7 +126,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.Medium,
             fontSize = 32.sp,
             lineHeight = 40.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = mediumLetterSpacing,
             color =  defaultHeadingColor
         ),
         headingL = TextStyle(
@@ -135,7 +134,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.SemiBold,
             fontSize = 40.sp,
             lineHeight = 48.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = highLetterSpacing,
             color =  defaultHeadingColor
         ),
         headingXL = TextStyle(
@@ -143,7 +142,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.SemiBold,
             fontSize = 48.sp,
             lineHeight = 54.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = highLetterSpacing,
             color =  defaultHeadingColor
         ),
         heading2XL = TextStyle(
@@ -151,7 +150,7 @@ val appTypography: AppTypography =
             fontWeight = FontWeight.SemiBold,
             fontSize = 64.sp,
             lineHeight = 64.sp,
-            letterSpacing = defaultLetterSpacing,
+            letterSpacing = highLetterSpacing,
             color =  defaultHeadingColor
         ),
     )
