@@ -40,7 +40,7 @@ val FontWeight.Companion.Heavy get() = W900
 val defaultLetterSpacing = (-0.7).sp
 val defaultLineHeight = 16.sp
 
-internal val defaultBodyColor = AppColor.Gray70.color
+internal val defaultBodyColor = AppColor.Gray100.color
 internal val defaultHeadingColor = AppColor.Gray100.color
 
 

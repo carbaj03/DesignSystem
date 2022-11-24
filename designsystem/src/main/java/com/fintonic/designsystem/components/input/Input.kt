@@ -185,15 +185,15 @@ fun InputAction(
         Spacer(modifier = Modifier.height(4.dp))
 
         val color = when {
-            subText.isError() && focused -> AppColor.Coral.color
-            focused -> AppColor.Blue.color
-            else -> AppColor.Gray30.color
+            subText.isError() && focused -> AppColor.Coral
+            focused -> AppColor.Blue
+            else -> AppColor.Gray30
         }
 
         Divider(
             Modifier
                 .height(Dp(0.5f))
-                .background(color = color)
+                .background(color = color.color)
         )
 
         subText?.let {
@@ -269,15 +269,15 @@ fun InputText(
         Spacer(modifier = Modifier.height(4.dp))
 
         val color = when {
-            subText.isError() && focused -> AppColor.Coral.color
-            focused -> AppColor.Blue.color
-            else -> AppColor.Gray30.color
+            subText.isError() && focused -> AppColor.Coral
+            focused -> AppColor.Blue
+            else -> AppColor.Gray30
         }
 
         Divider(
             Modifier
                 .height(1f.dp)
-                .background(color)
+                .background(color.color)
         )
 
         subText?.let {
@@ -380,57 +380,6 @@ fun InputTextBasic(
     }
 
 }
-//    }
-//
-//    Row(modifier = modifier
-//        .defaultMinSize(minWidth = 150.dp)
-//        .onFocusChanged {
-//            focused = it.isFocused
-//            hasFocus(it.isFocused)
-//        }
-//    ) {
-//
-//        Box(Modifier.weight(1f, false)) {
-//            if (!focused && text.isBlank()) {
-//                Text(
-//                    text = placeholder,
-//                    style = appTypography.bodyL,
-//                    color = AppColor.Gray70,
-////                    modifier = Modifier.wrapContentSize()
-//                )
-//            }
-//
-//            BasicTextField(
-//                modifier = Modifier
-////                    .wrapContentSize()
-//                    .focusRequester(focusRequester),
-//                value = text,
-//                onValueChange = { onTextChange(it) },
-//                textStyle = appTypography.bodyL,
-//                keyboardActions = keyboardActions,
-//                keyboardOptions = keyboardOptions,
-//                maxLines = maxLines,
-//                singleLine = maxLines == 1,
-//                enabled = enabled,
-//                readOnly = readOnly,
-//                cursorBrush = SolidColor(AppColor.Blue.color),
-//            )
-//        }
-//
-//        if (text.isNotBlank() || !readOnly && !enabled)
-//            Spacer(modifier = Modifier.fillMaxWidth())
-//            Icon(
-//                modifier = Modifier
-//                    .wrapContentSize()
-//                    .clickable {
-//                        onTextChange("")
-//                        focusRequester.requestFocus()
-//                    },
-//                imageVector = Icons.Default.Clear,
-//                contentDescription = null
-//            )
-//    }
-//}
 
 @Composable
 fun InputCurrency(
