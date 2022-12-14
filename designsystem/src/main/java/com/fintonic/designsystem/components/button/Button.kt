@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.fintonic.designsystem.components.text.Text
@@ -35,7 +36,7 @@ internal fun Button(
     content: @Composable RowScope.() -> Unit,
 ) {
     ProvideTextStyle(
-        value = AppTheme.typography.bodyM
+        value = AppTheme.typography.bodyM.copy(fontWeight = FontWeight.Bold)
     ) {
         Row(
             modifier = modifier
@@ -108,7 +109,12 @@ fun ButtonSecondary(
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(style = appTypography.bodyM, text = text, color = colorText, textAlign = textAlign)
+        Text(
+            style = appTypography.bodyM.copy(fontWeight = FontWeight.Bold),
+            text = text,
+            color = colorText,
+            textAlign = textAlign
+        )
         iconRight?.let {
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)
@@ -136,7 +142,13 @@ fun ButtonTertiary(
             Icon(painter = painterResource(id = it), contentDescription = null, tint = colorText.color)
             Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(style = appTypography.bodyM, text = text, color = colorText, textAlign = textAlign, maxLines = 1)
+        Text(
+            style = appTypography.bodyM.copy(fontWeight = FontWeight.Bold),
+            text = text,
+            color = colorText,
+            textAlign = textAlign,
+            maxLines = 1
+        )
         iconRight?.let {
             Spacer(modifier = Modifier.width(8.dp))
             Icon(painterResource(id = it), contentDescription = null, tint = colorText.color)
