@@ -57,7 +57,7 @@ fun ItemContactUs(
 ) {
     IconButton(onClick = onClick) {
         Icon(
-            painter = painterResource(id = R.drawable.ic_info),
+            painter = painterResource(id = R.drawable.ic_help),
             contentDescription = null,
             tint = color.color
         )
